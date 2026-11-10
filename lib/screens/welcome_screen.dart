@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vending_machine/main.dart';
+import 'package:vending_machine/provider/voice_provider.dart';
 import 'package:vending_machine/utils/colors.dart';
 import 'package:vending_machine/widgets/brand.dart';
 import 'package:vending_machine/widgets/heading.dart';
@@ -23,6 +26,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       vsync: this,
       duration: const Duration(milliseconds: 1800),
     )..repeat(reverse: true);
+
+    Provider.of<VoiceProvider>(context, listen: false).initialize();
   }
 
   @override
@@ -49,14 +54,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           size: 38,
         ),
         const SizedBox(height: 25),
-
         Image.asset(
           'assets/images/land.png',
           fit: BoxFit.fill,
           width: 100,
           height: 200,
         ),
-
         SizedBox(height: 10),
         microphone(size: 80, pulseController: pulseController),
         const SizedBox(height: 12),
@@ -65,33 +68,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           style: TextStyle(color: goldLight, fontSize: 12, letterSpacing: 3),
         ),
         const SizedBox(height: 22),
-        // const Text(
-        //   'TRY SAYING',
-        //   style: TextStyle(color: muted, fontSize: 11, letterSpacing: 2.5),
-        // ),
-        // const SizedBox(height: 14),
-        // Wrap(
-        //   spacing: 9,
-        //   runSpacing: 9,
-        //   alignment: WrapAlignment.center,
-        //   children: [
-        //     GestureDetector(
-        //       onTap: () => simulateVoiceRequest('Coke'),
-        //       child: commandChip('Get me a Coke', Icons.local_drink_outlined),
-        //     ),
-        //     GestureDetector(
-        //       onTap: () => simulateVoiceRequest('Chips'),
-        //       child: commandChip('I want chips', Icons.fastfood_outlined),
-        //     ),
-        //     GestureDetector(
-        //       onTap: () => simulateVoiceRequest('Water'),
-        //       child: commandChip('Get a water', Icons.water_drop_outlined),
-        //     ),
-        //   ],
-        // ),
-        // const SizedBox(height: 22),
-        // goldButton('Preview listening screen', startListening),
-        // const SizedBox(height: 12),
         const Text(
           'VOICE-POWERED  •  SIMPLE  •  SEAMLESS',
           style: TextStyle(color: muted, fontSize: 9, letterSpacing: 1.5),

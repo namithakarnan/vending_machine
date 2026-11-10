@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:vending_machine/main.dart';
 import 'package:vending_machine/services/voice_services.dart';
 
 class VoiceProvider extends ChangeNotifier {
@@ -8,6 +9,7 @@ class VoiceProvider extends ChangeNotifier {
   bool isListening = false;
   bool isSpeaking = false;
 
+  VendingState state = VendingState.welcome;
   String recognizedText = '';
   String response = 'Welcome! What would you like today?';
   String? errorMessage;
@@ -16,6 +18,7 @@ class VoiceProvider extends ChangeNotifier {
     isInitialized = await _voiceService.initialize(
       onStatus: (status) {
         isListening = status == 'listening';
+
         notifyListeners();
       },
       onError: (error) {
@@ -26,6 +29,7 @@ class VoiceProvider extends ChangeNotifier {
     );
 
     notifyListeners();
+    await startListening();
   }
 
   Future<void> startListening() async {
@@ -53,6 +57,7 @@ class VoiceProvider extends ChangeNotifier {
         }
       },
     );
+    print('Recognized Text: $recognizedText');
   }
 
   Future<void> stopListening() async {
@@ -73,8 +78,11 @@ class VoiceProvider extends ChangeNotifier {
       reply = 'You selected chips.';
     } else if (text.contains('cancel') || text.contains('stop')) {
       reply = 'Your request has been cancelled.';
-    } else if (text.contains('hello') || text.contains('hi')) {
-      reply = 'Hello! What would you like?';
+    } else if (text.contains('hello') ||
+        text.contains('hi') ||
+        text.contains('start')) {
+      state = VendingState.listening;
+      reply = 'Hello! What would you like today?';
     } else {
       reply = 'Sorry, I did not understand. Please try again.';
     }

@@ -70,7 +70,6 @@ class SmartVendingApp extends StatelessWidget {
 class VendingHome extends StatelessWidget {
   const VendingHome({super.key});
 
-  // VendingState state = VendingState.welcome;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
